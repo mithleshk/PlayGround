@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>title</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Naveen" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link href="../../../dojo-release-1.8.0-src/dojox/mobile/themes/common/domButtons/DomButtonSilverCircleRedCross.css" rel="stylesheet"/>
+		<script type="text/javascript" src="../../dojo-release-1.8.0-src/dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base','SpinWheel','SimpleDialog']"></script>
+		<script type="text/javascript" src="../../dojo-release-1.8.0-src/dojo/dojo.js" data-dojo-config="parseOnLoad:true,aysnc:true"></script>		
+		<script type="text/javascript">
+            
+           require([
+				"dojo/_base/window",
+				"dojo/dom",
+				"dojo/ready",
+				"dijit/registry",
+				"dojo/_base/xhr",
+				"dojox/mobile/parser",
+				"dojox/mobile",
+				"dojox/mobile/compat",				
+				"dojox/mobile/SimpleDialog"
+			], function(win, dom, ready, registry){				
+
+				show = function(dlg){
+				registry.byId(dlg).show();
+				if(!registry.byId('picker1'))
+				{
+					require(["dojox/mobile/SpinWheelDatePicker"],function(SpinWheelDatePicker)
+					{
+						var picker=new SpinWheelDatePicker({onCloseButtonClick:function(evt){console.log(evt)}},'picker1');
+						picker.startup();
+
+
+					})
+				}
+
+			}
+			
+				
+			});
+
+   
+		</script>
+		<style type="text/css">
+			#dlg_message {
+				top: 25%;
+				left: 25%;
+				width: 320px;
+				height: 200px;
+			}
+		</style>
+		
+	</head>
+	
+	<body style="visibility:hidden;">
+	
+				
+				<button onclick="show('dlg_message')">Show Dialog</button>
+			
+
+			<div id="dlg_message" width="500px" data-dojo-type="dojox.mobile.SimpleDialog" data-dojo-props='closeButton:true'>
+				
+				
+				<div id="picker1"  ></div>
+
+				<!-- <button  style="width:100px;" onclick="hide('dlg_message')">OK</button> -->
+
+			</div>
+
+
+			<div id="msg"></div>
+		
+	
+</body>
+</html>
