@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>bin2dec</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Naveen" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<script type="text/javascript">
+			function binToDec() {
+				var decimal = 0;
+				var inputBin = document.getElementById('inputBin').value;
+				inputBin = inputBin.split('');
+				var n = inputBin.length;
+				for (var i = 0; i < n; i++) {
+					var temp = 1;
+					for (var j = 0; j < n - (i + 1); j++) {
+						temp = temp * 2;
+					}
+					decimal = decimal + (temp * inputBin[i]);
+					document.getElementById('outputDec').value = decimal;
+				}
+			}
+
+			function DecToBin() {
+				var inputDec = document.getElementById('inputDec').value;
+				var temp = [];
+				
+				/*for(var i=0;i<=inputDec+1;i++)
+				{
+					temp[i]=inputDec % 2;
+					inputDec = inputDec-temp[i];
+					inputDec = inputDec/2;
+					console.log(temp[i],inputDec)
+					
+				}*/
+				var flag =true;
+				do
+				{
+					var d= inputDec % 2;
+					temp.push(d);
+					t = inputDec-d;
+					if(t==0)
+					{
+						flag=false;
+					}
+					inputDec = t/2;
+				}while(flag);
+				 var binary = temp.join('');
+				document.getElementById('outputBin').value = binary;
+			}
+		</script>
+	</head>
+
+	<body>
+		<div>
+			<span>Binary Input</span>
+			<input type="text" id="inputBin" />
+			<button type="button" onclick="binToDec()">
+				Convert
+			</button>
+			<span>Decimal Output</span>
+			<input type="text" id="outputDec" readonly="true" />
+		</div>
+		<div>
+			<span>Decimal Input</span>
+			<input type="text" id="inputDec" />
+			<button type="button" onclick="DecToBin()">
+				Convert
+			</button>
+			<span>Binary Output</span>
+			<input type="text" id="outputBin" readonly="true" />
+		</div>
+	</body>
+</html>
