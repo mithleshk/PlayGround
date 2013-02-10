@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>bin2dec</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Naveen" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="stylesheet" href="../../dojo-release-1.8.0-src/dijit/themes/claro/claro.css" />
+		<link rel="stylesheet" href="../../dojo-release-1.8.0-src/dojox/form/resources/CheckedMultiSelect.css" />
+		<script type="text/javascript" src="../../dojo-release-1.8.0-src/dojo/dojo.js" data-dojo-config="parseOnLoad:true"></script>
+		<script type="text/javascript">
+            require(["dijit/registry","dijit/form/Select","dijit/form/ComboBox","dijit/form/FilteringSelect","dojox/form/CheckedMultiSelect","dojo/store/Memory","dojo/data/ItemFileReadStore","dojo/_base/lang","dojo/data/ObjectStore","dojo/domReady!"],function(registry,Select,ComboBox,FilteringSelect,CheckedMultiSelect,Memory,ItemFileReadStore,lang,ObjectStore)
+            {
+            	var data = {
+					identifier: "value",
+					label: "label",
+					items: [
+						{value: "AL", label: "Alabama"},
+						{value: "AK", label: "Alaska"},
+						{value: "AZ", label: "Arizona"},
+						{value: "AR", label: "Arkansas"},
+						{value: "CA", label: "California"},
+						{value: "CO", label: "Colorado"},
+						{value: "CT", label: "Connecticut"}
+					]
+				};
+				var d =[
+					{value:"1",label:"a",t:"CA"},
+					{value:"2",label:"b",t:"CA"},
+					{value:"3",label:"a",t:"AL"}
+				]
+				function setVal2(val){
+			//dojo.byId('value2').value=val;
+			var w = dijit.byId('c');
+			var item = w.item;
+			
+			w.store.query({label:val}).then(function(e){
+				console.log(e[0].value);
+				var ar=[];
+
+				for(var i=0;i<d.length;i++)
+				{
+					var obj={};
+					if(d[i].t==e[0].value)
+					{
+						ar.push(d[i])
+					}
+				}
+				var readStore1 = new Memory({data:ar,idProperty:"value"});
+				var store1=new ObjectStore({objectStore:readStore1});
+				dijit.byId('s').setStore(store1);
+				dijit.byId('s').set("value","2");
+				
+			})
+			console.debug("Value changed to ["+val+"] in second box (#1652): datastore item label = " + (item?w.store.getLabel(item):'no item'));
+		}
+
+				//readStore = new ItemFileReadStore({data:lang.clone(data)});
+				var readStore = new Memory({data:data.items,idProperty:"value"});
+				var store=new ObjectStore({objectStore:readStore});
+                new Select({},"s");
+                var t=new ComboBox({store:store,onChange:setVal2,autoComplete:false,
+				selectOnClick:true,searchAttr:"label"},"c");
+                t.startup();
+                console.log(typeof registry.byId("c"))
+                new FilteringSelect({},"f");
+                console.log(store,readStore)
+              /* var test= new CheckedMultiSelect(
+                	{
+                		dropDown: true,
+					    multiple: true,
+					    //label: "Select something...",
+					    store: readStore
+                	},"m");
+               test.startup()*/
+            })
+           
+
+   
+</script>
+		
+	</head>
+	
+	<body class='claro'>
+		<div id='waferCheck_cb'>
+			<input id="s" ></input>
+			<input id="f" ></input>
+			<input id="c" ></input>		
+			<!-- <input id="m" ></input>	 -->	
+		</div>
+	</body>
+</html>
