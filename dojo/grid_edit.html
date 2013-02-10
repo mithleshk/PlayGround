@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+		Remove this if you use the .htaccess -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<title>title</title>
+		<meta name="description" content="" />
+		<meta name="author" content="Naveen" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="stylesheet" href="../../dojo-release-1.8.0-src/dijit/themes/claro/claro.css" />
+		<link rel="stylesheet" href="../../dojo-release-1.8.0-src/dojox/grid/resources/Grid.css" />
+		<script type="text/javascript" src="../../dojo-release-1.8.0-src/dojo/dojo.js" data-dojo-config="parseOnLoad:true"></script>		
+		<script type="text/javascript">
+			require([
+					"dojox/grid/DataGrid",
+					"dojo/store/JsonRest",
+					"dojo/store/Cache",
+					"dojo/store/Memory",
+					"dojo/data/ObjectStore",
+					"dojo/on",
+					"dojo/dom",
+					"dojo/domReady!"
+				],function(DataGrid,JsonRest,Cache,Memory,ObjectStore,on,registry){
+					/*var layout=[
+						{label:'Date',field:'date'},
+						{label:'Entry Time',field:'entry_time'},
+						{label:'Exit Time',field:'exit_time'},
+						{label:'Over Time',field:'over_time'}
+					];*/
+
+					/*var json = new JsonRest({target:"readtime.php"});
+					console.log(json);
+					var cache = new Cache(json,new Memory({}));*/
+					
+					var layout=[
+						{label:'FName',field:'fname',editable:true},
+						{label:'LName',field:'lname',editable:true},
+					];
+					var d=[
+						{fname:"Mithlesh",lname:"Kumar",id:"1"},
+						{fname:"Mithlesh",lname:"Kumar",id:"2"}
+					]
+					var store = new ObjectStore({objectStore:new Memory({data:d})});
+					var grid = new DataGrid({store:store,structure:layout},"grid");
+					grid.startup();
+					
+					on(registry.byId("btn"),"click",function(){
+						grid.edit.apply()
+						for(var i=0;i<store.objectStore.data.length;i++)
+						{
+							if(store.objectStore.data[i].__isDirty)
+							{
+								console.log(store.objectStore.data[i]);
+							}
+						}
+					});
+			});
+        </script>	
+	</head>	
+	<body class="claro">
+		<div id="grid"></div>
+		<input type="button" id="btn" value="Click Me !"/>
+	</body>
+</html>
